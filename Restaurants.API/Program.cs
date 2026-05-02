@@ -1,4 +1,6 @@
 
+using Restaurants.API.Controllers;
+
 namespace Restaurants.API
 {
     public class Program
@@ -10,6 +12,8 @@ namespace Restaurants.API
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
