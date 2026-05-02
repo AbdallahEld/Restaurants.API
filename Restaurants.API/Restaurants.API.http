@@ -1,6 +1,19 @@
-@Restaurants.API_HostAddress = http://localhost:5257
+@host = http://localhost
+@port = 5257
+@Restaurants.API_HostAddress = https://localhost:7091
 
 GET {{Restaurants.API_HostAddress}}/weatherforecast/weathers
 Accept: application/json
+ProjectUrl: {{$projectUrl}}
+Guid: {{$guid}}
+LocalDate: {{$datetime iso8601}}
+Random-int: {{$randomInt}}
 
 ###
+
+GET {{Restaurants.API_HostAddress}}/weatherforecast/weathers
+Content-Type: application/json
+
+{
+  "email": "abdallahEld@tes.com"
+}
