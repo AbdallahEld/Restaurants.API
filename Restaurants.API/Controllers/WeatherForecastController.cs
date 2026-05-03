@@ -19,9 +19,9 @@ namespace Restaurants.API.Controllers
 
         [HttpGet]
         [Route("weathers")]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<WeatherForecast> Get(int count, int minimumDegree, int maximumDegree)
         {
-            var result = _weatherForecastService.Get();
+            var result = _weatherForecastService.Get(count,minimumDegree,maximumDegree);
             return result;
         }
     }
