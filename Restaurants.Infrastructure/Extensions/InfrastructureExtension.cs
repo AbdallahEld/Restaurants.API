@@ -13,6 +13,8 @@ namespace Restaurants.Infrastructure
             {
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
         }
     }
 }
