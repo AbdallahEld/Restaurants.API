@@ -3,12 +3,8 @@ using Restaurants.Domain;
 
 namespace Restaurants.Infrastructure
 {
-    internal class RestaurantDbContext : DbContext
+    internal class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) : DbContext(options)
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-DG8T01C\\SQLEXPRESS;DataBase=Restaurants;Trusted_Connection=true;TrustServerCertificate=true");
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Restaurant>()
