@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurants.Domain;
 
 namespace Restaurants.Infrastructure
 {
-    public static class InfrastructureExtension
+    public static class InfrastructureServices
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
@@ -15,6 +16,7 @@ namespace Restaurants.Infrastructure
             });
 
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
+            services.AddScoped<IRestaurantRepository, RestaurantRepository>();
         }
     }
 }
