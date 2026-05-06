@@ -8,8 +8,8 @@ namespace Restaurants.Application
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            var applicationAssembly = typeof(RestaurantService).Assembly;
-            services.AddScoped<IRestaurantService, RestaurantService>();
+            var applicationAssembly = typeof(ApplicationServices).Assembly;
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
 
             services.AddAutoMapper(applicationAssembly);
             services.AddValidatorsFromAssembly(applicationAssembly)

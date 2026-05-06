@@ -7,7 +7,7 @@ namespace Restaurants.Application
     {
         public RestaurantsProfile() 
         {
-            CreateMap<CreateRestaurantDTO, Restaurant>()
+            CreateMap<CreateRestaurantCommand, Restaurant>()
                 .ForMember(d => d.Address, opt => opt.MapFrom(
                 src => new Address
                 {
