@@ -8,7 +8,7 @@ namespace Restaurants.Application
         public RestaurantsProfile() 
         {
             CreateMap<CreateRestaurantDTO, Restaurant>()
-                .ForMember(d => d.Address.City, opt => opt.MapFrom(
+                .ForMember(d => d.Address, opt => opt.MapFrom(
                 src => new Address
                 {
                     Street = src.Street,
