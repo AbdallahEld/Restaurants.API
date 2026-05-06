@@ -16,7 +16,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var restaurant = await restaurantService.GetRestaurantByIdAsync(id);
             if (restaurant == null)
@@ -24,6 +24,14 @@ namespace Restaurants.API.Controllers
                 return NotFound("Restaurant with this Id dont exist");
             }
             return Ok(restaurant);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantDTO createRestaurantDTO)
+        {
+            int id = await restaurantService.CreateRestaurantAsync(createRestaurantDTO);
+
+            return CreatedAtAction(nameof(GetById), new { id }, null);
         }
     }
 }
