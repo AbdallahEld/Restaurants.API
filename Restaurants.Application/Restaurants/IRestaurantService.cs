@@ -4,7 +4,7 @@ namespace Restaurants.Application
 {
     public interface IRestaurantService
     {
-        Task<IEnumerable<Restaurant>> GetAllRestaurantsAsync();
-        Task<Restaurant?> GetRestaurantByIdAsync(int id);
+        Task<IEnumerable<RestaurantDTO>> GetAllRestaurantsAsync();
+        Task<RestaurantDTO?> GetRestaurantByIdAsync(int id);
     }
 }
