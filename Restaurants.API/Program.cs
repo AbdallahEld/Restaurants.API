@@ -15,6 +15,9 @@ namespace Restaurants.API
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<ErrorHandlingMiddle>();
+
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
             builder.Host.UseSerilog((context, configuration) =>
@@ -33,6 +36,10 @@ namespace Restaurants.API
             var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
             await seeder.Seed();
             // Configure the HTTP request pipeline.
+            app.UseMiddleware<ErrorHandlingMiddle>();
+
+            app.UseSerilogRequestLogging();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
