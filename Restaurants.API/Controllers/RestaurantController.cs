@@ -39,6 +39,17 @@ namespace Restaurants.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id }, null);
         }
 
+        [HttpPatch("{id:int}")]
+        public async Task<IActionResult> UpdateRestaurant([FromRoute] int id, [FromBody] UpdateRestaurantCommand command)
+        {
+            command.Id = id;
+            var isUpdated = await mediator.Send(command);
+            if(isUpdated)
+                return NoContent();
+
+            return NotFound();
+        }
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
         {
