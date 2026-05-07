@@ -7,6 +7,8 @@ namespace Restaurants.Application
     {
         public DishesProfile() 
         {
+            CreateMap<CreateDishCommand, Dish>();
+
             CreateMap<Dish, DishDTO>();
         }
     }

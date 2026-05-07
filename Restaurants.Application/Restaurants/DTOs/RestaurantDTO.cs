@@ -17,23 +17,5 @@ namespace Restaurants.Application
         public string? AddressPostalCode { get; set; }
 
         public List<DishDTO> Dishes { get; set; } = new();
-
-        public static RestaurantDTO? FormEntity(Restaurant? restaurant)
-        {
-            if (restaurant == null) return null;
-
-            return new RestaurantDTO
-            {
-                Id = restaurant.Id,
-                Name = restaurant.Name,
-                Description = restaurant.Description,
-                Category = restaurant.Category,
-                Dishes = restaurant.Dishes.Select(DishDTO.FormEntity).ToList(),
-                HasDelivery = restaurant.HasDelivery,
-                AddressCity = restaurant.Address?.City,
-                AddressStreet = restaurant.Address?.Street,
-                AddressPostalCode = restaurant.Address?.PostalCode,
-            };
-        }
     }
 }
