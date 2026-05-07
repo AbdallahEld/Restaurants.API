@@ -9,6 +9,13 @@ namespace Restaurants.API.Controllers
     [ApiController]
     public class DishController(IMediator mediator) : ControllerBase
     {
+        [HttpGet("{dishId}")]
+        public async Task<ActionResult<DishDTO>> GetById([FromRoute] int restaurantId, [FromRoute] int dishId)
+        {
+            var dish = await mediator.Send(new GetDishByIdForRestaurantQuery(dishId,restaurantId));
+            return Ok(dish);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateDish([FromRoute] int restaurantId, CreateDishCommand command)
         {
