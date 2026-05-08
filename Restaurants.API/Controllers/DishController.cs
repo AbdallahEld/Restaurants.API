@@ -9,10 +9,17 @@ namespace Restaurants.API.Controllers
     [ApiController]
     public class DishController(IMediator mediator) : ControllerBase
     {
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<DishDTO>>> GetAll([FromRoute] int restaurantId)
+        {
+            var dishes = await mediator.Send(new GetDishesForRestaurantQuery(restaurantId));
+            return Ok(dishes);
+        }
+
         [HttpGet("{dishId}")]
         public async Task<ActionResult<DishDTO>> GetById([FromRoute] int restaurantId, [FromRoute] int dishId)
         {
-            var dish = await mediator.Send(new GetDishByIdForRestaurantQuery(dishId,restaurantId));
+            var dish = await mediator.Send(new GetDishByIdForRestaurantQuery(dishId, restaurantId));
             return Ok(dish);
         }
 
@@ -23,6 +30,13 @@ namespace Restaurants.API.Controllers
 
             await mediator.Send(command);
             return Created();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteDishes([FromRoute] int restaurantId)
+        {
+            await mediator.Send(new DeleteDishesForRestaurantCommand(restaurantId));
+            return NoContent();
         }
     }
 }

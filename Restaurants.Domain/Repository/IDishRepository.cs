@@ -3,5 +3,6 @@
     public interface IDishRepository
     {
         public Task<int> CreateAsync(Dish dish);
+        public Task DeleteCollectionAsync  (IEnumerable<Dish> dishes);
     }
 }

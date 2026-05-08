@@ -11,5 +11,11 @@ namespace Restaurants.Infrastructure
 
             return dish.Id;
         }
+
+        public async Task DeleteCollectionAsync(IEnumerable<Dish> dishes)
+        {
+            dbContext.Dishes.RemoveRange(dishes);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
