@@ -10,30 +10,35 @@ namespace Restaurants.API.Controllers
     public class DishController(IMediator mediator) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DishDTO>>> GetAll([FromRoute] int restaurantId)
+        public async Task<ActionResult<IEnumerable<DishDTO>>> GetAllDishesForRestaurant([FromRoute] int restaurantId)
         {
             var dishes = await mediator.Send(new GetDishesForRestaurantQuery(restaurantId));
             return Ok(dishes);
         }
 
         [HttpGet("{dishId}")]
-        public async Task<ActionResult<DishDTO>> GetById([FromRoute] int restaurantId, [FromRoute] int dishId)
+        public async Task<ActionResult<DishDTO>> GetByIdForRestaurant([FromRoute] int restaurantId, [FromRoute] int dishId)
         {
             var dish = await mediator.Send(new GetDishByIdForRestaurantQuery(dishId, restaurantId));
             return Ok(dish);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDish([FromRoute] int restaurantId, CreateDishCommand command)
+        public async Task<IActionResult> CreateDishForRestaurant([FromRoute] int restaurantId, CreateDishCommand command)
         {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState);
+            }
+
             command.RestaurantId = restaurantId;
 
-            await mediator.Send(command);
-            return Created();
+            var dishId = await mediator.Send(command);
+            return CreatedAtAction(nameof(GetByIdForRestaurant), new { restaurantId, dishId }, null);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteDishes([FromRoute] int restaurantId)
+        [HttpDelete]  
+        public async Task<IActionResult> DeleteDishesForRestaurant([FromRoute] int restaurantId)
         {
             await mediator.Send(new DeleteDishesForRestaurantCommand(restaurantId));
             return NoContent();
