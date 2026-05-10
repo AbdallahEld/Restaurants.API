@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Restaurants.Domain;
 
 namespace Restaurants.Infrastructure
 {
-    internal class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) : DbContext(options)
+    internal class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) : IdentityDbContext<User>(options)
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
