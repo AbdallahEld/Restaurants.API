@@ -10,6 +10,7 @@ namespace Restaurants.API
     {
         public static void AddPresentation(this WebApplicationBuilder builder)
         {
+            builder.Services.AddAuthentication();
             builder.Services.AddControllers();
 
             builder.Services.AddScoped<ErrorHandlingMiddleware>();
