@@ -9,6 +9,6 @@ namespace Restaurants.Application.User
 {
     public interface IUserContext
     {
-        CurrentUser? GetCurrentUser(IHttpContextAccessor httpContextAccessor);
+        CurrentUser? GetCurrentUser();
     }
 }

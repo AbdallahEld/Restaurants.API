@@ -4,9 +4,9 @@ using System.Security.Claims;
 
 namespace Restaurants.Application
 {
-    public class UserContext : IUserContext
+    public class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContext
     {
-        public CurrentUser? GetCurrentUser(IHttpContextAccessor httpContextAccessor)
+        public CurrentUser? GetCurrentUser()
         {
             var user = httpContextAccessor?.HttpContext?.User;
             if (user is null)
