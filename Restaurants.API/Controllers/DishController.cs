@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application;
+using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers
 {
@@ -12,7 +13,7 @@ namespace Restaurants.API.Controllers
     public class DishController(IMediator mediator) : ControllerBase
     {
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Policy = PolicyNames.AtLeast20)]
         public async Task<ActionResult<IEnumerable<DishDTO>>> GetAllDishesForRestaurant([FromRoute] int restaurantId)
         {
             var dishes = await mediator.Send(new GetDishesForRestaurantQuery(restaurantId));

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Domain;
 using Restaurants.Infrastructure.Authorization;
+using Restaurants.Infrastructure.Authorization.Requirements;
 
 namespace Restaurants.Infrastructure
 {
@@ -27,7 +29,11 @@ namespace Restaurants.Infrastructure
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
             services.AddAuthorizationBuilder()
-                .AddPolicy(PolicyNames.HasNationality, builder => builder.RequireClaim("Nationality", "Egyptian", "German", "Polish"));
+                .AddPolicy(PolicyNames.HasNationality, builder => builder.RequireClaim("Nationality", "Egyptian", "German", "Polish"))
+                .AddPolicy(PolicyNames.AtLeast20, builder => builder.AddRequirements(new MinimumAgeRequirement(20)));
+
+            services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+
         }
     }
 }
