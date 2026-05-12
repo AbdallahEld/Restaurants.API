@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Restaurants.API.Controllers;
 using Restaurants.API.Middlewares;
@@ -23,7 +24,9 @@ namespace Restaurants.API
 
             var scope = app.Services.CreateScope();
             var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
-            await seeder.Seed();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            await seeder.Seed(userManager, roleManager);
             // Configure the HTTP request pipeline.
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<TimeLoggingMiddleware>();

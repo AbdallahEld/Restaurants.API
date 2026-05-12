@@ -184,7 +184,7 @@ namespace Restaurants.Infrastructure.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Dishes");
+                    b.ToTable("Dishes", (string)null);
                 });
 
             modelBuilder.Entity("Restaurants.Domain.Restaurant", b =>
@@ -219,7 +219,7 @@ namespace Restaurants.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("Restaurants.Domain.User", b =>
@@ -355,7 +355,7 @@ namespace Restaurants.Infrastructure.Migrations
 
             modelBuilder.Entity("Restaurants.Domain.Restaurant", b =>
                 {
-                    b.OwnsOne("Restaurants.Domain.Address", "Address", b1 =>
+                    b.OwnsOne("Restaurants.Domain.Restaurant.Address#Restaurants.Domain.Address", "Address", b1 =>
                         {
                             b1.Property<int>("RestaurantId")
                                 .HasColumnType("int");
@@ -371,7 +371,7 @@ namespace Restaurants.Infrastructure.Migrations
 
                             b1.HasKey("RestaurantId");
 
-                            b1.ToTable("Restaurants");
+                            b1.ToTable("Restaurants", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("RestaurantId");

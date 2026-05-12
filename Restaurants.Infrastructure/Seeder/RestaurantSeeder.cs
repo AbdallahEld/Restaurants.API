@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Restaurants.Domain;
+using Restaurants.Domain.Constants;
 
 namespace Restaurants.Infrastructure
 {
     internal class RestaurantSeeder(RestaurantDbContext dbContext) : IRestaurantSeeder
     {
-        public async Task Seed()
+        public async Task Seed(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (await dbContext.Database.CanConnectAsync())
             {
@@ -15,7 +17,44 @@ namespace Restaurants.Infrastructure
                     dbContext.Restaurants.AddRange(restaurants);
                     await dbContext.SaveChangesAsync();
                 }
+
+                if(!await dbContext.Roles.AnyAsync())
+                {
+                    var roles = GetRoles();
+                    foreach (var role in roles)
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                    await dbContext.SaveChangesAsync();
+                }
+
+                var adminEmail = AdminData.AdminEmail;
+                if (await userManager.FindByEmailAsync(adminEmail) == null)
+                {
+                    var user = new User
+                    {
+                        Email = adminEmail,
+                        UserName = AdminData.UserName
+                    };
+                    var result = await userManager.CreateAsync(user, AdminData.AdminPassword);
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.Admin);
+                    }
+                }
             }
+        }
+
+        private IEnumerable<string> GetRoles()
+        {
+            List<string> roles = new()
+            {
+                UserRoles.Admin,
+                UserRoles.Owner,
+                UserRoles.User
+            };
+            return roles;
         }
 
         public IEnumerable<Restaurant> GetRestaurants()
