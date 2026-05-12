@@ -26,6 +26,8 @@ namespace Restaurants.Infrastructure
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
+            services.AddAuthorizationBuilder()
+                .AddPolicy(PolicyNames.HasNationality, builder => builder.RequireClaim("Nationality", "Egyptian", "German", "Polish"));
         }
     }
 }
