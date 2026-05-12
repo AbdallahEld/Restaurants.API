@@ -10,7 +10,7 @@ namespace Restaurants.Application
         IRestaurantRepository restaurantRepository,
         IMapper mapper) : IRequestHandler<GetRestaurantByIdQuery, RestaurantDTO?>
     {
-        public async Task<RestaurantDTO> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RestaurantDTO?> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
         {
             logger.LogInformation("Get Restaurant with id: {RestaurantId}", request.Id);
             var restaurant = await restaurantRepository.GetByIdAsync(request.Id)

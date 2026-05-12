@@ -9,7 +9,7 @@ namespace Restaurants.Application
     public class UpdateUserDetailsCommandHandler(
         ILogger<UpdateUserDetailsCommandHandler> logger,
         IUserContext userContext,
-        IUserStore<Restaurants.Domain.User> userStore) : IRequestHandler<UpdateUserDetailsCommand>
+        IUserStore<Domain.User> userStore) : IRequestHandler<UpdateUserDetailsCommand>
     {
         public async Task Handle(UpdateUserDetailsCommand request, CancellationToken cancellationToken)
         {
