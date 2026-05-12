@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Domain;
+using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.Infrastructure
 {
@@ -19,6 +20,7 @@ namespace Restaurants.Infrastructure
 
             services.AddIdentityApiEndpoints<User>()
                 .AddRoles<IdentityRole>()
+                .AddClaimsPrincipalFactory<RestaurantsUserClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<RestaurantDbContext>();
 
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
