@@ -1,13 +1,16 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Restaurants.Domain;
+using Restaurants.Domain.Constants;
+using Restaurants.Domain.Interfaces;
 
 namespace Restaurants.Application
 {
     public class DeleteDishesForRestaurantCommandHandler(
         ILogger<DeleteDishesForRestaurantCommandHandler> logger,
         IRestaurantRepository restaurantRepository,
-        IDishRepository dishRepository) : IRequestHandler<DeleteDishesForRestaurantCommand>
+        IDishRepository dishRepository,
+        IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<DeleteDishesForRestaurantCommand>
     {
         public async Task Handle(DeleteDishesForRestaurantCommand request, CancellationToken cancellationToken)
         {
@@ -16,6 +19,9 @@ namespace Restaurants.Application
 
             if (restaurant == null)
                 throw new NotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+
+            if (!restaurantAuthorizationService.Authorize(restaurant, RestaurantOperations.Update))
+                throw new ForbidException();
 
             await dishRepository.DeleteCollectionAsync(restaurant.Dishes);
         }
