@@ -9,5 +9,6 @@ namespace Restaurants.Application
 {
     public class GetAllRestaurantsQuery : IRequest<IEnumerable<RestaurantDTO>>
     {
+        public string? seachPhrase { get; set; }
     }
 }

@@ -7,5 +7,6 @@
         public Task<int> CreateAsync(Restaurant restaurant);
         public Task DeleteAsync(Restaurant restaurant);
         public Task SaveChangesAsync();
+        public Task<IEnumerable<Restaurant>> GetAllMatching(string? searchPhrase);
     }
 }
