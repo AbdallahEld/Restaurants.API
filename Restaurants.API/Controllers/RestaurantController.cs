@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application;
+using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers
 {
@@ -54,6 +55,12 @@ namespace Restaurants.API.Controllers
             await mediator.Send(new DeleteRestaurantCommand(id));
 
             return NoContent();
+        }
+        [HttpGet("checkAuth")]
+        [Authorize(Policy = PolicyNames.CreatedAtleast2Restaurants)]
+        public async Task<IActionResult> TestAuthRequirement()
+        {
+            return Ok("You are authorized to access this endpoint.");
         }
     }
 }

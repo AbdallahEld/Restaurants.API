@@ -1,0 +1,30 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using Restaurants.Application.User;
+using Restaurants.Domain;
+
+namespace Restaurants.Infrastructure.Authorization.Requirements
+{
+    public class CreatedMultipleRestaurantsRequirementHandler(
+        IRestaurantRepository restaurantRepository,
+        IUserContext userContext) : AuthorizationHandler<CreatedMultipleRestaurantsRequirement>
+    {
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, CreatedMultipleRestaurantsRequirement requirement)
+        {
+            var currentUser = userContext.GetCurrentUser();
+
+            var restaurants = await restaurantRepository.GetAllAsync();
+
+            var restaurantsCreatedByUser = restaurants.Count(r => r.OwnerId == currentUser!.Id);
+
+            if (restaurantsCreatedByUser >= requirement.MinimumRestaurantsCreated)
+            {
+                context.Succeed(requirement);
+            }
+            else
+            {
+                context.Fail();
+            }
+        }
+    }
+}
